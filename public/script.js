@@ -1,3 +1,5 @@
+const API_URL = "https://eventcalendar-pode.onrender.com";
+
 const form = document.getElementById("eventForm");
 const eventDateInput = document.getElementById("eventDate");
 const eventNameInput = document.getElementById("eventName");
@@ -21,14 +23,14 @@ function showMessage(message, type) {
         messageBox.style.borderColor = "#c3e6cb";
     }
 
-    setTimeout(function(){
+    setTimeout(() => {
         messageBox.style.display = "none";
     }, 3000);
 }
 
-form.addEventListener("submit", async function(event){
+form.addEventListener("submit", async function (event) {
     event.preventDefault();
-    
+
     const eventTitle = eventNameInput.value.trim();
     const eventDate = eventDateInput.value;
 
@@ -38,10 +40,10 @@ form.addEventListener("submit", async function(event){
     }
 
     try {
-        const response = await fetch("/events", {
-            method : "POST",
+        const response = await fetch(`${API_URL}/events`, {
+            method: "POST",
             headers: {
-                "Content-type" : "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 title: eventTitle,
@@ -58,12 +60,12 @@ form.addEventListener("submit", async function(event){
         form.reset();
         eventDateInput.min = today;
         showMessage("Event Added Successfully", "success");
+
     } catch (error) {
         showMessage(error.message, "error");
     }
 });
 
-
-calendarButton.addEventListener("click", function(){
+calendarButton.addEventListener("click", function () {
     window.location.href = "calendar.html";
 });
