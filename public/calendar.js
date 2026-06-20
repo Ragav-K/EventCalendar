@@ -1,3 +1,5 @@
+const API_URL = "https://eventcalendar-pode.onrender.com";
+
 const calendar = document.getElementById("calendar");
 const monthYear = document.getElementById("monthYear");
 const modalDate = document.getElementById("modalDate");
@@ -82,6 +84,7 @@ function drawCalendar() {
     for (let day = 1; day <= totalDays; day++) {
         const date = formatDate(currentYear, currentMonth, day);
         const dayEvents = getEventsForDate(date);
+
         const dateBox = document.createElement("div");
         const dayNumber = document.createElement("div");
 
@@ -109,7 +112,7 @@ function drawCalendar() {
 
 async function loadEvents() {
     try {
-        const response = await fetch("/events");
+        const response = await fetch(`${API_URL}/events`);
         const data = await response.json();
 
         if (!response.ok) {
