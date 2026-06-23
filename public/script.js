@@ -2,6 +2,7 @@ const API_URL = "https://eventcalendar-pode.onrender.com";
 
 const form = document.getElementById("eventForm");
 const eventDateInput = document.getElementById("eventDate");
+const eventTimeInput = document.getElementById("eventTime");
 const eventNameInput = document.getElementById("eventName");
 const messageBox = document.getElementById("messageBox");
 const calendarButton = document.getElementById("viewCalendar");
@@ -33,9 +34,10 @@ form.addEventListener("submit", async function (event) {
 
     const eventTitle = eventNameInput.value.trim();
     const eventDate = eventDateInput.value;
+    const eventTime = eventTimeInput.value;
 
-    if (!eventTitle || !eventDate) {
-        showMessage("Please enter both event title and event date.", "error");
+    if (!eventTitle || !eventDate || !eventTime) {
+        showMessage("Please enter event title, date, and time.", "error");
         return;
     }
 
@@ -47,7 +49,8 @@ form.addEventListener("submit", async function (event) {
             },
             body: JSON.stringify({
                 title: eventTitle,
-                date: eventDate
+                date: eventDate,
+                time: eventTime
             })
         });
 

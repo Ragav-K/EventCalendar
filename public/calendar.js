@@ -40,11 +40,29 @@ function getEventsForDate(date) {
     });
 }
 
+function formatEventTime(time) {
+    if (!time) {
+        return "";
+    }
+
+    const [hours, minutes] = time.split(":");
+    const date = new Date();
+    date.setHours(Number(hours), Number(minutes));
+
+    return date.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit"
+    });
+}
+
 function addEventTitles(dateBox, dayEvents) {
     dayEvents.forEach(function(event) {
         const eventTitle = document.createElement("div");
         eventTitle.classList.add("calendar-event-title");
-        eventTitle.textContent = event.title;
+        const eventTime = formatEventTime(event.time);
+        eventTitle.textContent = eventTime
+            ? `${eventTime} - ${event.title}`
+            : event.title;
         dateBox.appendChild(eventTitle);
     });
 }
@@ -58,8 +76,11 @@ function showEventsForDate(day, date, dayEvents) {
     } else {
         dayEvents.forEach(function(event) {
             const eventItem = document.createElement("div");
+            const eventTime = formatEventTime(event.time);
             eventItem.classList.add("event-card");
-            eventItem.textContent = event.title;
+            eventItem.textContent = eventTime
+                ? `${eventTime} - ${event.title}`
+                : event.title;
             eventList.appendChild(eventItem);
         });
     }
@@ -154,4 +175,5 @@ document.getElementById("closeViewModal").addEventListener("click", function() {
     viewEventModal.style.display = "none";
 });
 
+drawCalendar();
 loadEvents();

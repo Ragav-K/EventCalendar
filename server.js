@@ -28,17 +28,18 @@ app.get("/", (req, res) => {
 
 app.post("/events", async (req, res) => {
     try {
-        const { title, date } = req.body;
+        const { title, date, time } = req.body;
 
-        if (!title || !date) {
+        if (!title || !date || !time) {
             return res.status(400).json({
-                message: "Event title and date are required"
+                message: "Event title, date, and time are required"
             });
         }
 
         const event = await Event.create({
             title,
-            date
+            date,
+            time
         });
 
         res.status(201).json({
@@ -55,7 +56,7 @@ app.post("/events", async (req, res) => {
 
 app.get("/events", async (req, res) => {
     try {
-        const events = await Event.find().sort({ date: 1 });
+        const events = await Event.find().sort({ date: 1, time: 1 });
 
         res.json(events);
     } catch (error) {
